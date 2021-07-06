@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Persons from "./components/Persons";
+import Filter from "./components/Filter";
+import AddContact from "./components/AddContact";
 
-function App() {
+const App = () => {
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: 1111111 },
+  ]);
+  const [formData, setFormData] = useState();
+  const [filterPhrase, setFilterPhrase] = useState("");
+
+  let filteredNames = persons.filter((person) =>
+    person.name.includes(filterPhrase)
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Filter filterPhrase={filterPhrase} setFilterPhrase={setFilterPhrase} />
+      <AddContact
+        formData={formData}
+        setFormData={setFormData}
+        setPersons={setPersons}
+        filterPhrase={filterPhrase}
+        persons={persons}
+      />
+      <Persons
+        persons={persons}
+        filterPhrase={filterPhrase}
+        filteredNames={filteredNames}
+      />
     </div>
   );
-}
+};
 
 export default App;
