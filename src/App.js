@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import AddContact from "./components/AddContact";
+import axios from "axios";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: 1111111 },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [formData, setFormData] = useState();
   const [filterPhrase, setFilterPhrase] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons").then((response) => {
+      setPersons(response.data);
+    });
+  }, []);
 
   let filteredNames = persons.filter((person) =>
     person.name.includes(filterPhrase)
