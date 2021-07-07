@@ -1,12 +1,8 @@
+import axios from "axios";
 import React from "react";
+import noteService from "../services/notes";
 
-const AddContact = ({
-  filterPhrase,
-  formData,
-  persons,
-  setFormData,
-  setPersons,
-}) => {
+const AddContact = ({ formData, persons, setFormData, setPersons }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const addedPerson = {
@@ -15,7 +11,9 @@ const AddContact = ({
     };
     let exists = persons.some((item) => item.name === addedPerson.name);
     if (!exists) {
-      setPersons([...persons, addedPerson]);
+      noteService.create(addedPerson).then((response) => {
+        setPersons(persons.concat(response.data));
+      });
     } else {
       alert(`${addedPerson.name}'s number is already added to phonebook`);
     }

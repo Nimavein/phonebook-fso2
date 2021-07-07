@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import AddContact from "./components/AddContact";
-import axios from "axios";
+import noteService from "./services/notes";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,7 +10,7 @@ const App = () => {
   const [filterPhrase, setFilterPhrase] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    noteService.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -31,6 +31,7 @@ const App = () => {
       />
       <Persons
         persons={persons}
+        setPersons={setPersons}
         filterPhrase={filterPhrase}
         filteredNames={filteredNames}
       />
