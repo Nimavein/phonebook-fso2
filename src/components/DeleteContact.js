@@ -5,10 +5,12 @@ import noteService from "../services/notes";
 const DeleteContact = ({ id, persons, setPersons }) => {
   console.log(persons);
   const deleteContact = (id) => {
-    const newPeople = persons.filter((person) => person.id !== id);
-    noteService.deleteContact(id).then(() => {
-      setPersons(newPeople);
-    });
+    if (window.confirm("Do you want to delete?")) {
+      const newPeople = persons.filter((person) => person.id !== id);
+      noteService.deleteContact(id).then(() => {
+        setPersons(newPeople);
+      });
+    }
   };
   return (
     <div>
